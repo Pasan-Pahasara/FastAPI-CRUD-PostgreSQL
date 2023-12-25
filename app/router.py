@@ -40,6 +40,16 @@ async def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_d
 
 @router.get("/{id}")
 async def get_user_by_id(id: int, db: Session = Depends(get_db)):
+    """
+    Retrieve a user by their ID.
+
+    Parameters:
+    - id (int): The ID of the user to retrieve.
+    - db (Session): The database session.
+
+    Returns:
+    - dict: A dictionary containing the user information.
+    """
     _user = crud.get_user_by_id(db, user_id=id)
     return Response(status="Ok", code="200", message="Success fetch data", result=_user).dict(exclude_none=True)
 
