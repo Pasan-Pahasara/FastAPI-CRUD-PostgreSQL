@@ -11,7 +11,7 @@ Base = declarative_base()
 """
 This module provides the configuration settings for the application.
 
-- `DATABASE_URL`: The URL of the SQLite database.
+- `DATABASE_URL`: The URL of the PostgreSQL database.
 - `engine`: The SQLAlchemy engine object for connecting to the database.
 - `SessionLocal`: The sessionmaker object for creating database sessions.
 - `Base`: The declarative base class for defining database models.
