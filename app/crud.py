@@ -60,3 +60,29 @@ def remove_user(db: Session, user_id: int):
     _user = get_user_by_id(db=db, user_id=user_id)
     db.delete(_user)
     db.commit()
+
+def update_user(db: Session, user_id: int, name: str, email: str, password: str):
+    """
+    Update a user in the database.
+
+    Args:
+        db (Session): The database session.
+        user_id (int): The ID of the user to update.
+        name (str): The new name.
+        email (str): The new email.
+        password (str): The new password.
+
+    Returns:
+        User: The updated user.
+
+    Examples:
+        # Update user with ID 1
+        update_user(db, 1, "John Doe", "john@example.com", "newpassword")
+    """
+    _user = get_user_by_id(db=db, user_id=user_id)
+    _user.name = name
+    _user.email = email
+    _user.password = password
+    db.commit()
+    db.refresh(_user)
+    return _user
