@@ -28,3 +28,20 @@ def get_user_by_id(db: Session, user_id: int):
         User: The user object if found, None otherwise.
     """
     return db.query(User).filter(User.id == user_id).first()
+
+def create_user(db: Session, user: UserSchema):
+    """
+    Create a new user in the database.
+
+    Args:
+        db (Session): The database session.
+        user (UserSchema): The user data.
+
+    Returns:
+        User: The created user.
+    """
+    _user = User(name=user.name, email=user.email, password=user.password)
+    db.add(_user)
+    db.commit()
+    db.refresh(_user)
+    return _user
