@@ -1,6 +1,5 @@
 from typing import Optional, Generic, TypeVar
 from pydantic import BaseModel , Field
-from pydantic.generics import GenericModel
 
 T = TypeVar('T')
 
@@ -15,7 +14,7 @@ class UserSchema(BaseModel):
     password: Optional[str] = None
   
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class RequestUser(BaseModel):
     """
@@ -23,7 +22,7 @@ class RequestUser(BaseModel):
     """
     parameters: UserSchema = Field(...)
 
-class Response(GenericModel, Generic[T]):
+class Response(BaseModel, Generic[T]):
     """
     Represents a generic response object.
 
