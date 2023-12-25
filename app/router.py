@@ -52,3 +52,18 @@ async def create_user(request: RequestUser, db: Session = Depends(get_db)):
     """
     crud.create_user(db, user=request.parameter)
     return Response(status="Ok", code="200", message="User created successfully").dict(exclude_none=True)
+
+@router.delete("/delete")
+async def remove_user(request: RequestUser,  db: Session = Depends(get_db)):
+    """
+    Remove a user from the database.
+
+    Args:
+        request (RequestUser): The user request object.
+        db (Session, optional): The database session. Defaults to Depends(get_db).
+
+    Returns:
+        dict: A dictionary containing the response status, code, and message.
+    """
+    crud.remove_user(db, user_id=request.parameter.id)
+    return Response(status="Ok", code="200", message="Success delete data").dict(exclude_none=True)
