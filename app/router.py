@@ -65,5 +65,20 @@ async def remove_user(request: RequestUser,  db: Session = Depends(get_db)):
     Returns:
         dict: A dictionary containing the response status, code, and message.
     """
-    crud.remove_user(db, user_id=request.parameter.id)
+    crud.remove_user(db, user_id=request.parameter.user_id)
     return Response(status="Ok", code="200", message="Success delete data").dict(exclude_none=True)
+
+@router.patch("/update")
+async def update_user(request: RequestUser, db: Session = Depends(get_db)):
+    """
+    Update user data in the database.
+
+    Args:
+        request (RequestUser): The request object containing user data.
+        db (Session, optional): The database session. Defaults to Depends(get_db).
+
+    Returns:
+        Response: The response object containing the updated user data.
+    """
+    _user = crud.update_user(db, user_id=request.parameter.user_id, name=request.parameter.name, email=request.parameter.email, password=request.parameter.password)
+    return Response(status="Ok", code="200", message="Success update data", result=_user)
