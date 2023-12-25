@@ -45,3 +45,18 @@ def create_user(db: Session, user: UserSchema):
     db.commit()
     db.refresh(_user)
     return _user
+
+def remove_user(db: Session, user_id: int):
+    """
+    Remove a user from the database.
+
+    Args:
+        db (Session): The database session.
+        user_id (int): The ID of the user to remove.
+
+    Returns:
+        User: The removed user.
+    """
+    _user = get_user_by_id(db=db, user_id=user_id)
+    db.delete(_user)
+    db.commit()
