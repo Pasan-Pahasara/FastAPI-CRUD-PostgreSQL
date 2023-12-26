@@ -62,6 +62,10 @@ def remove_user(db: Session, user_id: int):
         User: The removed user.
     """
     _user = get_user_by_id(db=db, user_id=user_id)
+
+    if _user is None:
+        return None
+    
     db.delete(_user)
     db.commit()
 
@@ -85,6 +89,10 @@ def update_user(db: Session, user_id: int, name: str, email: str, password: str)
         update_user(db, 1, "John Doe", "john@example.com", "newpassword")
     """
     _user = get_user_by_id(db, user_id=user_id)
+
+    if _user is None:
+        return None
+
     _user.name = name
     _user.email = email
     _user.password = password

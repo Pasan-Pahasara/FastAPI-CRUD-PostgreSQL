@@ -54,6 +54,10 @@ async def get_user_by_id(id: int, db: Session = Depends(get_db)):
     - dict: A dictionary containing the user information.
     """
     _user = crud.get_user_by_id(db, user_id=id)
+
+    if _user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
     return Response(status="Ok", code="200", message="Success fetch data", result=_user).model_dump()
 
 
@@ -86,6 +90,10 @@ async def remove_user(id: int, db: Session = Depends(get_db)):
         dict: A dictionary containing the response status, code, and message.
     """
     _user = crud.remove_user(db, user_id=id)
+
+    if _user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
     return Response(status="Ok", code="200", message="Success delete data", result=_user).model_dump()
 
 
@@ -103,4 +111,8 @@ async def update_user(request: RequestUser, db: Session = Depends(get_db)):
     """
     _user = crud.update_user(db, user_id=request.parameters.id, name=request.parameters.name,
                              email=request.parameters.email, password=request.parameters.password)
+
+    if _user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
     return Response(status="Ok", code="200", message="Success update data", result=_user).model_dump()
