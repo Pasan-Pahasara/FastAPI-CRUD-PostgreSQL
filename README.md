@@ -52,6 +52,9 @@ def read_item(item_id: int, q: Union[str, None] = None):
 uvicorn main:app --reload
 ```
 
+## Links
+* 🔗 <a href="https://documenter.getpostman.com/view/24952393/2s9Ykt4ycX" target="_blank">PostMan</a>
+
 #  
 #### Clone this repository ✅
 ```md
