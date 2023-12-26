@@ -8,6 +8,7 @@ import crud
 
 router = APIRouter()
 
+
 def get_db():
     """
     Returns a database session.
@@ -21,6 +22,7 @@ def get_db():
         yield db
     finally:
         db.close()
+
 
 @router.get("/")
 async def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
@@ -36,7 +38,8 @@ async def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_d
     - Response: HTTP response object with the fetched users
     """
     _users = crud.get_users(db, skip, limit)
-    return Response(status="Ok", code="200", message="Success fetch all data", result=_users)
+    return Response(status="Ok", code="200", message="Success fetch all data", result=_users).model_dump()
+
 
 @router.get("/{id}")
 async def get_user_by_id(id: int, db: Session = Depends(get_db)):
@@ -51,7 +54,8 @@ async def get_user_by_id(id: int, db: Session = Depends(get_db)):
     - dict: A dictionary containing the user information.
     """
     _user = crud.get_user_by_id(db, user_id=id)
-    return Response(status="Ok", code="200", message="Success fetch data", result=_user).dict(exclude_none=True)
+    return Response(status="Ok", code="200", message="Success fetch data", result=_user).model_dump()
+
 
 @router.post("/create")
 async def create_user(request: RequestUser, db: Session = Depends(get_db)):
@@ -65,11 +69,12 @@ async def create_user(request: RequestUser, db: Session = Depends(get_db)):
     Returns:
         dict: A dictionary containing the response status, code, and message.
     """
-    crud.create_user(db, user=request.parameter)
-    return Response(status="Ok", code="200", message="User created successfully").dict(exclude_none=True)
+    _user = crud.create_user(db, user=request.parameters)
+    return Response(status="Ok", code="200", message="User created successfully", result=_user).model_dump()
+
 
 @router.delete("/{id}")
-async def remove_user(id:int, db: Session = Depends(get_db)):
+async def remove_user(id: int, db: Session = Depends(get_db)):
     """
     Remove a user from the database.
 
@@ -80,8 +85,9 @@ async def remove_user(id:int, db: Session = Depends(get_db)):
     Returns:
         dict: A dictionary containing the response status, code, and message.
     """
-    crud.remove_user(db, user_id=id)
-    return Response(status="Ok", code="200", message="Success delete data").dict(exclude_none=True)
+    _user = crud.remove_user(db, user_id=id)
+    return Response(status="Ok", code="200", message="Success delete data", result=_user).model_dump()
+
 
 @router.patch("/update")
 async def update_user(request: RequestUser, db: Session = Depends(get_db)):
@@ -95,5 +101,6 @@ async def update_user(request: RequestUser, db: Session = Depends(get_db)):
     Returns:
         Response: The response object containing the updated user data.
     """
-    _user = crud.update_user(db, user_id=request.parameter.user_id, name=request.parameter.name, email=request.parameter.email, password=request.parameter.password)
-    return Response(status="Ok", code="200", message="Success update data", result=_user)
+    _user = crud.update_user(db, user_id=request.parameters.id, name=request.parameters.name,
+                             email=request.parameters.email, password=request.parameters.password)
+    return Response(status="Ok", code="200", message="Success update data", result=_user).model_dump()

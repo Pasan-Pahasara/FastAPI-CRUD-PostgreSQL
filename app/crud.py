@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from models import User
 from schemas import UserSchema
 
+
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     """
     Retrieve a list of users from the database.
@@ -16,6 +17,7 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
     """
     return db.query(User).offset(skip).limit(limit).all()
 
+
 def get_user_by_id(db: Session, user_id: int):
     """
     Retrieve a user from the database by their ID.
@@ -28,6 +30,7 @@ def get_user_by_id(db: Session, user_id: int):
         User: The user object if found, None otherwise.
     """
     return db.query(User).filter(User.id == user_id).first()
+
 
 def create_user(db: Session, user: UserSchema):
     """
@@ -46,6 +49,7 @@ def create_user(db: Session, user: UserSchema):
     db.refresh(_user)
     return _user
 
+
 def remove_user(db: Session, user_id: int):
     """
     Remove a user from the database.
@@ -60,6 +64,7 @@ def remove_user(db: Session, user_id: int):
     _user = get_user_by_id(db=db, user_id=user_id)
     db.delete(_user)
     db.commit()
+
 
 def update_user(db: Session, user_id: int, name: str, email: str, password: str):
     """
@@ -79,7 +84,7 @@ def update_user(db: Session, user_id: int, name: str, email: str, password: str)
         # Update user with ID 1
         update_user(db, 1, "John Doe", "john@example.com", "newpassword")
     """
-    _user = get_user_by_id(db=db, user_id=user_id)
+    _user = get_user_by_id(db, user_id=user_id)
     _user.name = name
     _user.email = email
     _user.password = password
