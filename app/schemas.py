@@ -32,7 +32,6 @@ class Response(BaseModel, Generic[T]):
         message (str): The response message.
         result (Optional[T]): The response result, if any.
     """
-    
     code: str
     status: str
     message: str
