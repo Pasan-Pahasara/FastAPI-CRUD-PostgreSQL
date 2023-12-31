@@ -84,6 +84,6 @@ If you have any questions or just wanna say hi, <br><b>MAIL ME</b>&nbsp;
   <a href="mailto:pasanpahasara7788@gmail.com">
       <img width="20px" src="https://github.com/Pasan-Pahasara/md-alpha/blob/main/gmail.svg" />
   </a></p>
- 
+  
  </div>
 
